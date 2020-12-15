@@ -18,14 +18,18 @@ namespace WeatherApp.Services
         
         public async Task<TemperatureModel> GetTempAsync()
         {
+            var result = new TemperatureModel();
             var temp = await owp.GetCurrentWeatherAsync();
 
-            var result = new TemperatureModel
+            if(temp != null)
             {
-                City = temp.Name,
-                DateTime = DateTime.UnixEpoch.AddSeconds(temp.DateTime).ToLocalTime(),
-                Temperature = temp.Main.Temperature
-            };
+                result = new TemperatureModel
+                {
+                    City = temp.Name,
+                    DateTime = DateTime.UnixEpoch.AddSeconds(temp.DateTime).ToLocalTime(),
+                    Temperature = temp.Main.Temperature
+                };
+            }
 
             return result;
         }

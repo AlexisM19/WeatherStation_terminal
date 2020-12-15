@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using WeatherApp.Commands;
@@ -96,7 +97,7 @@ namespace WeatherApp.ViewModels
 
             if (CurrentTemp != null)
             {
-                /// TODO 01 : Insérer la température à la position 0 de la collection
+                /// TODO 01 DONE : Insérer la température à la position 0 de la collection
                 /// Description détaillée :
                 /// À chaque fois que l'on clique sur le bouton "Get Data". On veut 
                 /// insérer la température à la position 0 de la collection.
@@ -104,6 +105,22 @@ namespace WeatherApp.ViewModels
                 /// dernière température insérée dans la liste est différente
                 /// que celle que l'on vient de récupérer.
                 /// Utiliser la méthode Insert de la collection
+                /// 
+                if(Temperatures.Count == 0)
+                {
+                    RawText = CurrentTemp.ToString() + Environment.NewLine + RawText;
+                    Temperatures.Insert(0, CurrentTemp);
+                }
+                else if(Temperatures.First().City != null && Temperatures.First().City.ToString() == string.Empty)
+                {
+                    RawText = CurrentTemp.ToString() + Environment.NewLine + RawText;
+                    Temperatures.Insert(0, CurrentTemp);
+                }
+                    if (Temperatures.First().City != CurrentTemp.City && Temperatures.First().DateTime != CurrentTemp.DateTime)
+                    {
+                        RawText = CurrentTemp.ToString() + Environment.NewLine + RawText;
+                        Temperatures.Insert(0, CurrentTemp);
+                    }
 
                 Debug.WriteLine(CurrentTemp);
             }
